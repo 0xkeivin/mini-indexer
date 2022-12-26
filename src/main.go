@@ -143,7 +143,7 @@ func main() {
 		// Poll etherscan
 		resp, err := pollEtherscan(fullUrl)
 		if err != nil {
-			log.Info("Error polling etherscan: %s", err)
+			log.Infof("Error polling etherscan: %s", err)
 		}
 		// Convert response to JSON
 		convertByteToJSON(resp)
