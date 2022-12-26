@@ -92,4 +92,13 @@ func main() {
 	}
 	// Convert response to JSON
 	convertByteToJSON(resp)
+
+	// for loop
+	ticker := time.Tick(10 * time.Second)
+	for range ticker {
+		currentTime := time.Now()
+		// print log with tick time
+		log.Infof("%s - Tick at", currentTime.Format("2006-01-02 15:04:05"))
+
+	}
 }
