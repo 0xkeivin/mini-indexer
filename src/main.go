@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"time"
@@ -26,7 +26,7 @@ func convertByteToJSON(body []byte) {
 		return
 	}
 	// Write JSON to file
-	err = ioutil.WriteFile("response.json", jsonData, 0644)
+	err = os.WriteFile("response.json", jsonData, 0644)
 	if err != nil {
 		log.Infof("Error writing JSON to file: %s", err)
 		return
@@ -68,7 +68,7 @@ func pollEtherscan(url string) ([]byte, error) {
 	}
 	// Read the response body
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Info("Error reading response body: %s", err)
 	}
