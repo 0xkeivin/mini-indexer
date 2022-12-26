@@ -1,1 +1,1 @@
-# mini-indexer
+# web3-indexer
