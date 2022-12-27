@@ -9,11 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type BlockResponse struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Result  string `json:"result"`
-}
+
 
 // function to get latest block number
 func GetLatestBlockNumber(apiKey string) int {
