@@ -13,15 +13,20 @@ import (
 )
 
 func main() {
-	log.Info("Starting web3-indexer...")
-	etherscanAPIKey := env.GoDotEnvVariable("ETHERSCAN_API_KEY")
-	if etherscanAPIKey == "" {
-		log.Fatalf("Error getting Etherscan API Key")
+	// Initialize env variables
+	loadedConfig, err := env.LoadConfig(".")
+	if err != nil {
+		log.Fatalf("Error loading config: %s", err)
 	}
-	// log.Infof("Using Etherscan API Key: %s", etherscanAPIKey)
+	log.Info("Initialized env variables...")
+
+	log.Infof("ETHERSCAN_API_KEY: %v", loadedConfig.ETHERSCAN_API_KEY)
+	log.Infof("DBName: %v", loadedConfig.DBName)
+	// Start web3-indexer
+	log.Info("Starting web3-indexer...")
 
 	// Using USDC contract address
-	address := "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+	// address := "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
 	// Base URL
 	baseUrl := `https://api.etherscan.io/api?module=logs&action=getLogs&page=1&offset=1000`
 
@@ -34,19 +39,18 @@ func main() {
 	log.Infof("DB: %v", db)
 
 	// for loop
-	ticker := time.Tick(20 * time.Second)
+	ticker := time.Tick(10 * time.Second)
 	for range ticker {
 		currentTime := time.Now()
 		// print log with tick time
 		log.Infof("Tick at - %s", currentTime.Format("2006-01-02 15:04:05"))
 		// get latest block number
-		latestBlockNumber := etherscan.GetLatestBlockNumber(etherscanAPIKey)
+		latestBlockNumber := etherscan.GetLatestBlockNumber(loadedConfig.ETHERSCAN_API_KEY)
 		fromBlock := latestBlockNumber - 10 // get last 10 blocks
 		log.Infof("Latest block number: %v", latestBlockNumber)
 		log.Infof("From block number: %v", fromBlock)
 
-		// fullUrl := baseUrl + `&address=` + address + `&apikey=` + etherscanAPIKey
-		fullUrl := baseUrl + `&address=` + address + `&fromBlock=` + fmt.Sprint(fromBlock) + `&toBlock=` + fmt.Sprint(latestBlockNumber) + `&apikey=` + etherscanAPIKey
+		fullUrl := baseUrl + `&address=` + loadedConfig.CONTRACT_ADDRESS + `&fromBlock=` + fmt.Sprint(fromBlock) + `&toBlock=` + fmt.Sprint(latestBlockNumber) + `&apikey=` + loadedConfig.ETHERSCAN_API_KEY
 		log.Infof("Full URL: %s", fullUrl)
 		// Poll etherscan
 		resp, err := etherscan.SendGetReq(fullUrl)
