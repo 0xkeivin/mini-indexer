@@ -3,8 +3,8 @@ Purpose of this repo is to create a simple stack to index ethereum blockchain da
 # Getting Started
 ```bash
 # For Go section
-cd src
-cp .env.example .env # Update .env with your own values
+cp app.env.example app.env # Update the env variables
+go run cmd/main/main.go # Run the app
 ```
 # Components (WIP)
 - Etherscan API and Endpoint
