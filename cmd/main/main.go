@@ -15,7 +15,9 @@ import (
 func main() {
 	log.Info("Starting web3-indexer...")
 	etherscanAPIKey := env.GoDotEnvVariable("ETHERSCAN_API_KEY")
-
+	if etherscanAPIKey == "" {
+		log.Fatalf("Error getting Etherscan API Key")
+	}
 	// log.Infof("Using Etherscan API Key: %s", etherscanAPIKey)
 
 	// Using USDC contract address
