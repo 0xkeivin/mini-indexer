@@ -11,3 +11,6 @@ go run cmd/main/main.go # Run the app
 - Scheduler service - polls Etherscan API for new blocks and saved to DB 
 - DB - PostgresQL 
 - Frontend - ReactJS
+# References
+- GORM setup - https://codevoweb.com/setup-golang-gorm-restful-api-project-with-postgres/
+- Logging - https://github.com/sirupsen/logrus

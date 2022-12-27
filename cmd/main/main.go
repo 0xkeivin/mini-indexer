@@ -24,19 +24,20 @@ func main() {
 	log.Infof("DBName: %v", loadedConfig.DBName)
 	// Start web3-indexer
 	log.Info("Starting web3-indexer...")
-
 	// Using USDC contract address
 	// address := "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
 	// Base URL
 	baseUrl := `https://api.etherscan.io/api?module=logs&action=getLogs&page=1&offset=1000`
-
+	// Initialize database
+	db.ConnectDB(&loadedConfig)
+	db.AutoMigrate(db.DB)
 	// test section
-	db, err := db.ConnectToDB()
-	if err != nil {
-		log.Infof("Error connecting to database: %s", err)
-	}
-	defer db.Close()
-	log.Infof("DB: %v", db)
+	// db, err := db.ConnectToDB()
+	// if err != nil {
+	// 	log.Infof("Error connecting to database: %s", err)
+	// }
+	// defer db.Close()
+	// log.Infof("DB: %v", db)
 
 	// for loop
 	ticker := time.Tick(10 * time.Second)
