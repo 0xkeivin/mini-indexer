@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/0xkeivin/web3-indexer/internal/pkg/db"
 	"github.com/0xkeivin/web3-indexer/internal/pkg/env"
 	"github.com/0xkeivin/web3-indexer/internal/pkg/etherscan"
 	"github.com/0xkeivin/web3-indexer/internal/utils"
@@ -21,6 +22,14 @@ func main() {
 	address := "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
 	// Base URL
 	baseUrl := `https://api.etherscan.io/api?module=logs&action=getLogs&page=1&offset=1000`
+
+	// test section
+	db, err := db.ConnectToDB()
+	if err != nil {
+		log.Infof("Error connecting to database: %s", err)
+	}
+	defer db.Close()
+	log.Infof("DB: %v", db)
 
 	// for loop
 	ticker := time.Tick(20 * time.Second)
