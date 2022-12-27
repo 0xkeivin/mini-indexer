@@ -26,9 +26,13 @@ func LoadConfig(path string) (config Config, err error) {
 
 	err = viper.ReadInConfig()
 	if err != nil {
-		log.Infof("Error reading config file, %s", err)
+		log.WithFields(log.Fields{
+			"ENV": "FAILED",
+		}).Fatal("Error reading config file")
 	}
-
 	err = viper.Unmarshal(&config)
+	log.WithFields(log.Fields{
+		"ENV": "OK",
+	}).Info("Successfully loaded config file!")
 	return config, err
 }
