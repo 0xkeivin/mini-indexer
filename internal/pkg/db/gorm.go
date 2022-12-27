@@ -41,3 +41,8 @@ func AutoMigrate(db *gorm.DB) {
 		"DB-AUTOMIGRATE": "OK",
 	}).Info("DB migrated!")
 }
+
+// PopulateDB populates the database with the latest block number
+// func PopulateDB (db *gorm.DB,  ) error {
+
+// }

@@ -20,7 +20,7 @@ func main() {
 	}
 	log.Info("Initialized env variables...")
 
-	log.Infof("ETHERSCAN_API_KEY: %v", loadedConfig.ETHERSCAN_API_KEY)
+	// log.Infof("ETHERSCAN_API_KEY: %v", loadedConfig.ETHERSCAN_API_KEY)
 	log.Infof("DBName: %v", loadedConfig.DBName)
 	// Start web3-indexer
 	log.Info("Starting web3-indexer...")

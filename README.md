@@ -13,4 +13,5 @@ go run cmd/main/main.go # Run the app
 - Frontend - ReactJS
 # References
 - GORM setup - https://codevoweb.com/setup-golang-gorm-restful-api-project-with-postgres/
+- GORM datatypes - https://github.com/go-gorm/datatypes
 - Logging - https://github.com/sirupsen/logrus
