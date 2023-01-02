@@ -9,8 +9,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-
-
 // function to get latest block number
 func GetLatestBlockNumber(apiKey string) int {
 	// get current time

@@ -39,17 +39,8 @@ func main() {
 	// Initialize database
 	db.ConnectDB(&loadedConfig)
 	db.AutoMigrate(db.DB)
-	// test section
-	// db, err := db.ConnectToDB()
-	// if err != nil {
-	// 	log.Infof("Error connecting to database: %s", err)
-	// }
-	// defer db.Close()
-	// log.Infof("DB: %v", db)
-
 	// create slice of objects
 	var response Response
-	// var BlockChainLogs []db.BlockChainLog
 	// for loop
 	ticker := time.Tick(10 * time.Second)
 	for range ticker {
