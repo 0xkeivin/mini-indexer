@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -11,6 +12,13 @@ import (
 
 	log "github.com/sirupsen/logrus"
 )
+
+// create struct for json response
+type Response struct {
+	Status  string             `json:"status"`
+	Message string             `json:"message"`
+	Result  []db.BlockChainLog `json:"result"`
+}
 
 func main() {
 	// Initialize env variables
@@ -39,6 +47,9 @@ func main() {
 	// defer db.Close()
 	// log.Infof("DB: %v", db)
 
+	// create slice of objects
+	var response Response
+	// var BlockChainLogs []db.BlockChainLog
 	// for loop
 	ticker := time.Tick(10 * time.Second)
 	for range ticker {
@@ -58,8 +69,17 @@ func main() {
 		if err != nil {
 			log.Infof("Error polling etherscan: %s", err)
 		}
+
 		// Convert response to JSON
 		utils.ConvertByteToJSON(resp)
-
+		// unmarshal JSON to struct
+		err = json.Unmarshal(resp, &response)
+		if err != nil {
+			log.Infof("Error unmarshalling JSON: %s", err)
+		}
+		// print response
+		log.Infof("Response: %v", response.Message)
+		// create slice of objects
+		db.InsertObj(db.DB, response.Result)
 	}
 }

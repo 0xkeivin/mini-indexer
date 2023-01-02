@@ -43,6 +43,35 @@ func AutoMigrate(db *gorm.DB) {
 }
 
 // PopulateDB populates the database with the latest block number
-// func PopulateDB (db *gorm.DB,  ) error {
+func InsertObj(db *gorm.DB, objects []BlockChainLog) error {
+	// create counter for number of objects inserted
+	var objSkipped, objInserted int
 
-// }
+	for _, obj := range objects {
+		// check if object already exists
+		if err := db.First(&obj, "transaction_hash = ?", obj.TransactionHash).Error; err == nil {
+			objSkipped++
+			log.WithFields(log.Fields{
+				"DB-INSERT": "SKIPPED",
+			}).Infof("Object already exists in DB! - %s", obj.TransactionHash)
+			continue
+		}
+		if err := db.Create(&obj).Error; err != nil {
+			log.WithFields(log.Fields{
+				"DB-INSERT": "FAILED",
+			}).Fatal("Failed to insert objects into DB!")
+			return err
+		}
+		objInserted++
+		log.WithFields(log.Fields{
+			"DB-INSERT": "OK",
+		}).Infof("Inserted objects into DB!- %s", obj.TransactionHash)
+	}
+	log.WithFields(log.Fields{
+		"DB-SKIP": objSkipped,
+	}).Infof("Skipped object count into DB!- %v", objSkipped)
+	log.WithFields(log.Fields{
+		"DB-INSERT": objInserted,
+	}).Infof("Inserted object count into DB!- %v", objInserted)
+	return nil
+}
